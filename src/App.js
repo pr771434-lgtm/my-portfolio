@@ -1,87 +1,109 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 
 function App() {
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
+
   const data = {
     name: "Pawan Rajpoot",
-    location: "Indore, MP",
-    email: "pr771434@gmail.com",
-    skills: [
-      "Java Full Stack", "C++", "React", "HTML/CSS/JS", 
-      "Video Editing", "Graphic Design", "MS Office", 
-      "Web Designing", "Management"
-    ],
+    role: "Full Stack Developer",
+    skills: ["Java Full Stack", "React", "C++", "HTML/CSS/JS", "Video Editing", "Graphic Design"],
     experience: [
-      { 
-        role: "Teacher", 
-        org: "Pushp Foundation", 
-        year: "2023-2025",
-        desc: "Taught basic computer and communication skills to students from diverse backgrounds."
-      },
-      { 
-        role: "Volunteer", 
-        org: "Robinhood Army", 
-        year: "2022-2023",
-        desc: "Assisted in food distribution drives and coordinated team events."
-      }
+      { role: "Teacher", org: "Pushp Foundation", year: "2023-2025" },
+      { role: "Volunteer", org: "Robinhood Army", year: "2022-2023" }
     ]
   };
 
+  // Particles Configuration
+  const particlesOptions = {
+    background: { color: { value: "#0a192f" } },
+    fpsLimit: 120,
+    interactivity: {
+      events: { onHover: { enable: true, mode: "repulse" } },
+      modes: { repulse: { distance: 100, duration: 0.4 } },
+    },
+    particles: {
+      color: { value: "#64ffda" },
+      links: { color: "#64ffda", distance: 150, enable: true, opacity: 0.2, width: 1 },
+      move: { enable: true, speed: 1.5 },
+      number: { density: { enable: true, area: 800 }, value: 80 },
+      opacity: { value: 0.3 },
+      shape: { type: "circle" },
+      size: { value: { min: 1, max: 3 } },
+    },
+  };
+
   return (
-    <div style={{ fontFamily: 'Segoe UI, Arial, sans-serif', color: '#333', maxWidth: '850px', margin: 'auto', padding: '20px', lineHeight: '1.6' }}>
-      
-      {/* Header Section */}
-      <header style={{ textAlign: 'center', padding: '60px 0', borderBottom: '2px solid #f4f4f4' }}>
-        <h1 style={{ fontSize: '2.8rem', margin: '0', color: '#2c3e50' }}>{data.name}</h1>
-        <p style={{ fontSize: '1.2rem', color: '#666' }}>BCA Student @ Govt. Holkar Science College</p>
-        <div style={{ marginTop: '20px' }}>
-          <a href={`mailto:${data.email}`} style={{ marginRight: '20px', color: '#007bff', textDecoration: 'none', fontWeight: 'bold' }}>Email</a>
-          
-          {/* rel="noreferrer" add kiya gaya hai Vercel error ko theek karne ke liye */}
-          <a 
-            href="https://linkedin.com/in/pawan-rajpoot-160394351/" 
-            target="_blank" 
-            rel="noreferrer" 
-            style={{ color: '#007bff', textDecoration: 'none', fontWeight: 'bold' }}
+    <div style={{ fontFamily: "'Poppins', sans-serif", color: '#ccd6f6', minHeight: '100vh', position: 'relative' }}>
+      {init && <Particles options={particlesOptions} style={{ position: 'absolute', zIndex: -1 }} />}
+
+      <div style={{ position: 'relative', zIndex: 1, maxWidth: '900px', margin: 'auto', padding: '20px' }}>
+        
+        {/* Animated Hero Section */}
+        <motion.header 
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          style={{ textAlign: 'center', padding: '100px 0' }}
+        >
+          <motion.div
+            animate={{ boxShadow: ["0 0 20px #64ffda", "0 0 50px #64ffda", "0 0 20px #64ffda"] }}
+            transition={{ repeat: Infinity, duration: 3 }}
+            style={{ width: '120px', height: '120px', borderRadius: '50%', border: '3px solid #64ffda', margin: '0 auto 20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 'bold' }}
           >
-            LinkedIn
-          </a>
-        </div>
-      </header>
+            PR
+          </motion.div>
+          <h1 style={{ fontSize: '4rem', margin: '0', color: '#64ffda' }}>{data.name}</h1>
+          <p style={{ fontSize: '1.5rem', color: '#8892b0' }}>{data.role}</p>
+        </motion.header>
 
-      {/* About Section */}
-      <section style={{ padding: '40px 0' }}>
-        <h2 style={{ color: '#2c3e50', borderBottom: '2px solid #007bff', display: 'inline-block' }}>Profile</h2>
-        <p>I am a motivated and diligent undergraduate student pursuing BCA. I have a keen interest in programming, software development, and teamwork. Eager to learn new technologies and contribute positively to any organisation.</p>
-      </section>
-
-      {/* Skills Section */}
-      <section style={{ padding: '20px 0' }}>
-        <h2 style={{ color: '#2c3e50', borderBottom: '2px solid #007bff', display: 'inline-block' }}>Skills</h2>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginTop: '15px' }}>
-          {data.skills.map(skill => (
-            <span key={skill} style={{ background: '#e9ecef', padding: '8px 18px', borderRadius: '50px', fontSize: '14px', fontWeight: '500' }}>
-              {skill}
-            </span>
-          ))}
-        </div>
-      </section>
-
-      {/* Experience Section */}
-      <section style={{ padding: '40px 0' }}>
-        <h2 style={{ color: '#2c3e50', borderBottom: '2px solid #007bff', display: 'inline-block' }}>Work Experience</h2>
-        {data.experience.map((exp, index) => (
-          <div key={index} style={{ marginBottom: '25px', marginTop: '15px' }}>
-            <h3 style={{ margin: '0', color: '#34495e' }}>{exp.role} — {exp.org}</h3>
-            <small style={{ color: '#95a5a6', fontWeight: 'bold' }}>{exp.year}</small>
-            <p style={{ margin: '5px 0' }}>{exp.desc}</p>
+        {/* Skills Section with Glassmorphism */}
+        <section style={{ marginBottom: '60px' }}>
+          <h2 style={{ color: '#e6f1ff', borderBottom: '1px solid #233554', paddingBottom: '10px' }}>Skills</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', marginTop: '20px' }}>
+            {data.skills.map((skill) => (
+              <motion.span 
+                key={skill}
+                whileHover={{ y: -5, backgroundColor: "rgba(100, 255, 218, 0.1)" }}
+                style={{ border: '1px solid #64ffda', color: '#64ffda', padding: '10px 20px', borderRadius: '4px', fontSize: '14px' }}
+              >
+                {skill}
+              </motion.span>
+            ))}
           </div>
-        ))}
-      </section>
+        </section>
 
-      {/* Footer */}
-      <footer style={{ textAlign: 'center', padding: '60px 0', fontSize: '14px', color: '#bdc3c7', borderTop: '1px solid #f4f4f4' }}>
-        Built with React | {new Date().getFullYear()} Pawan Rajpoot
-      </footer>
+        {/* Experience Section */}
+        <section>
+          <h2 style={{ color: '#e6f1ff', borderBottom: '1px solid #233554', paddingBottom: '10px' }}>Experience</h2>
+          {data.experience.map((exp, i) => (
+            <motion.div 
+              key={i}
+              initial={{ x: -50, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              style={{ background: 'rgba(17, 34, 64, 0.7)', padding: '25px', borderRadius: '10px', marginTop: '20px', borderLeft: '4px solid #64ffda' }}
+            >
+              <h3 style={{ margin: '0', color: '#ccd6f6' }}>{exp.role}</h3>
+              <p style={{ color: '#64ffda', margin: '5px 0' }}>{exp.org} | {exp.year}</p>
+            </motion.div>
+          ))}
+        </section>
+
+        <footer style={{ textAlign: 'center', padding: '100px 0', color: '#8892b0', fontSize: '14px' }}>
+          <p>© 2026 Designed & Built by Pawan Rajpoot</p>
+        </footer>
+      </div>
     </div>
   );
 }
