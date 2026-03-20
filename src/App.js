@@ -20,7 +20,6 @@ function App() {
     name: "Pawan Rajpoot",
     role: "Full Stack Developer | BCA Student",
     
-    // All Social Links organized by category
     socials: {
       "🎨 Sketching": {
         insta: "https://www.instagram.com/pr____art?igsh=NXhzc3AxYjd3eDR3",
@@ -37,13 +36,14 @@ function App() {
         yt: "https://youtube.com/@predit-l8h?si=2Y5qMtjn9EKTwCS-",
         handle: "@pr____edit"
       },
-       "📸 Photography": {
+      "📸 Photography": {
         insta: "https://www.instagram.com/pr____edit?igsh=NzliNnIwejBsZ283",
         yt: "https://youtube.com/@predit-l8h?si=2Y5qMtjn9EKTwCS-",
         handle: "@pr____edit"
       },
+
       "💻 Coding": {
-        insta: null, // Agar coding ka insta nahi hai toh default link use hoga
+        insta: null,
         yt: "https://youtube.com/@codingyourself-k4q?si=kuW2cngnMUpBP_Ou",
         handle: "@codingyourself"
       }
@@ -88,9 +88,8 @@ function App() {
     hobbies: ["🎨 Sketching", "🎮 Gaming", "📸 Photography", "💻 Coding"]
   };
 
-  // Dynamic Social Links Component
   const SocialLinks = ({ category }) => {
-    const links = data.socials[category] || data.socials["🎨 Sketching"]; // Default to Art if not found
+    const links = data.socials[category] || data.socials["🎨 Sketching"];
     return (
       <div style={{ marginTop: '25px', display: 'flex', gap: '15px', justifyContent: 'center', borderTop: '1px solid rgba(100, 255, 218, 0.1)', paddingTop: '20px', flexWrap: 'wrap' }}>
         {links.insta && (
@@ -125,14 +124,12 @@ function App() {
 
       <div style={{ position: 'relative', zIndex: 1, maxWidth: '1050px', margin: 'auto', padding: '40px 20px' }}>
         
-        {/* Header */}
         <header style={{ textAlign: 'center', padding: '60px 0' }}>
           <motion.div animate={{ scale: [1, 1.05, 1] }} transition={{ repeat: Infinity, duration: 3 }} style={{ width: '100px', height: '100px', borderRadius: '50%', border: '3px solid #64ffda', margin: '0 auto 20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', color: '#64ffda', background: 'rgba(10, 25, 47, 0.8)' }}>PR</motion.div>
           <h1 style={{ fontSize: '3.5rem', color: '#64ffda', margin: 0 }}>{data.name}</h1>
           <p style={{ fontSize: '1.2rem', color: '#8892b0' }}>{data.role}</p>
         </header>
 
-        {/* Projects Section */}
         <section style={{ marginBottom: '80px' }}>
           <h2 style={{ borderBottom: '1px solid #233554', paddingBottom: '10px', color: '#ccd6f6' }}>Featured Projects</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', marginTop: '30px' }}>
@@ -149,7 +146,6 @@ function App() {
           </div>
         </section>
 
-        {/* Technical Skills & Gallery */}
         <section style={{ marginBottom: '80px' }}>
           <h2 style={{ borderBottom: '1px solid #233554', paddingBottom: '10px' }}>Technical Skills</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '12px', marginTop: '20px' }}>
@@ -168,9 +164,10 @@ function App() {
             {activeSkill && (
               <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} style={{ marginTop: '20px', padding: '20px', background: 'rgba(17, 34, 64, 0.5)', borderRadius: '12px', overflow: 'hidden' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
-                  {data.skillGalleries[activeSkill]?.map((img, i) => <img key={i} src={img} style={{ width: '100%', borderRadius: '8px' }} onError={(e) => { e.target.src="https://via.placeholder.com/200x150?text=Work+Sample"; }} />)}
+                  {data.skillGalleries[activeSkill]?.map((img, i) => (
+                    <img key={i} src={img} alt={`${activeSkill} sample ${i}`} style={{ width: '100%', borderRadius: '8px' }} onError={(e) => { e.target.src="https://via.placeholder.com/200x150?text=Work+Sample"; }} />
+                  ))}
                 </div>
-                {/* Specific link for Video Editing Skill */}
                 {(activeSkill === "Video Editing") && <SocialLinks category="Video Editing" />}
                 {(activeSkill === "Graphics Design") && <SocialLinks category="🎨 Sketching" />}
               </motion.div>
@@ -178,7 +175,6 @@ function App() {
           </AnimatePresence>
         </section>
 
-        {/* Hobbies Section */}
         <section style={{ marginBottom: '80px' }}>
           <h2 style={{ borderBottom: '1px solid #233554', paddingBottom: '10px' }}>Hobbies</h2>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginTop: '20px' }}>
@@ -190,16 +186,16 @@ function App() {
             {activeHobby && (
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} style={{ marginTop: '20px', padding: '25px', background: 'rgba(17, 34, 64, 0.5)', borderRadius: '15px' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px' }}>
-                  {data.galleries[activeHobby]?.map((url, i) => <img key={i} src={url} style={{ width: '100%', borderRadius: '8px' }} onError={(e) => { e.target.src=`https://via.placeholder.com/300?text=${activeHobby}`; }} />)}
+                  {data.galleries[activeHobby]?.map((url, i) => (
+                    <img key={i} src={url} alt={`${activeHobby} ${i}`} style={{ width: '100%', borderRadius: '8px' }} onError={(e) => { e.target.src=`https://via.placeholder.com/300?text=${activeHobby}`; }} />
+                  ))}
                 </div>
-                {/* Matches hobby name to the social links category */}
                 <SocialLinks category={activeHobby} />
               </motion.div>
             )}
           </AnimatePresence>
         </section>
 
-        {/* Experience Section */}
         <section style={{ marginBottom: '80px' }}>
           <h2 style={{ borderBottom: '1px solid #233554', paddingBottom: '10px' }}>Work Experience</h2>
           <div style={{ marginTop: '30px' }}>
